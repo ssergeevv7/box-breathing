@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RefreshCw, ExternalLink, Play, Volume2, VolumeX } from 'lucide-react';
 import { BreathingPhase } from './types';
 
@@ -38,6 +38,12 @@ const playPhaseSound = (phase: BreathingPhase) => {
 
     osc.start();
     osc.stop(ctx.currentTime + 2.5);
+    
+    // Cleanup context to prevent memory leaks
+    setTimeout(() => {
+        ctx.close();
+    }, 2600);
+
   } catch (e) {
     console.error("Audio playback failed", e);
   }
